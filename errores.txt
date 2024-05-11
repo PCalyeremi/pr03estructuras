@@ -1,16 +1,7 @@
 yeremi@yeremi-VirtualBox:~/pr03cpp$ g++ -o Splay Splay.cpp
-Splay.cpp: In member function ‘Node* Splay::splay(Node*)’:
-Splay.cpp:109:32: error: ‘zigzig’ was not declared in this scope; did you mean ‘zigzag’?
-  109 |                         root = zigzig(x);
-      |                                ^~~~~~
-      |                                zigzag
-Splay.cpp:111:32: error: ‘zagzag’ was not declared in this scope; did you mean ‘zigzag’?
-  111 |                         root = zagzag(x);
-      |                                ^~~~~~
-      |                                zigzag
 Splay.cpp: In member function ‘void Splay::insert(char*)’:
-Splay.cpp:136:45: error: cannot convert ‘Node*’ to ‘Node**’
-  136 |             root->getChildsList()->insertar(leafNode);
+Splay.cpp:135:45: error: cannot convert ‘Node*’ to ‘Node**’
+  135 |             root->getChildsList()->insertar(leafNode);
       |                                             ^~~~~~~~
       |                                             |
       |                                             Node*
@@ -19,8 +10,8 @@ In file included from Node.cpp:3,
 list.cpp:32:27: note:   initializing argument 1 of ‘void list<T>::insertar(T*) [with T = Node*]’
    32 | void list<T>::insertar(T* pData) {
       |                        ~~~^~~~~
-Splay.cpp:139:33: error: cannot convert ‘Node*’ to ‘Node**’
-  139 |             childList->insertar(newNode);
+Splay.cpp:138:33: error: cannot convert ‘Node*’ to ‘Node**’
+  138 |             childList->insertar(newNode);
       |                                 ^~~~~~~
       |                                 |
       |                                 Node*
