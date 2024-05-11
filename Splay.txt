@@ -129,15 +129,9 @@ void Splay::insert(char* value) {
     if (root == nullptr) {
         root = newNode;
     } else {
-        list<Node*>* childList = root->getChildsList();
-        if (childList->getLength() == 2) {
-            Node* leafNode = new Node(value); 
-            root->getChildsList()->insertar(leafNode);
-            root = splay(leafNode);
-        } else {
-            childList->insertar(newNode);
-            root = splay(newNode);
-        }
+        newNode->setNext(root);
+        root = newNode;
+        root = splay(newNode); 
     }
 }
 #endif
