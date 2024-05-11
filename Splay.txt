@@ -106,9 +106,9 @@ Node* Splay::splay(Node* x) {
                 // Caso 3: x es bisnieto de la raíz
                 if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
                     if (x == p->getNext()) {
-                        root = zigzig(x);
+                        root = zigzag(x);
                     } else {
-                        root = zagzag(x);
+                        root = zagzig(x);
                     }
                 } else {
                     if (x == p->getNext()) {
@@ -123,7 +123,6 @@ Node* Splay::splay(Node* x) {
 
     return root;
 }
-
 // inserta el nuevo valor
 void Splay::insert(char* value) {
     Node* newNode = new Node(value);
