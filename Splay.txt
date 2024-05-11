@@ -57,6 +57,7 @@ Node* Splay::zigzag(Node* x) {
             return zag(zag(x));
         }
     }
+    return nullptr;
 }
 
 // rotación der-izq
@@ -72,6 +73,7 @@ Node* Splay::zagzig(Node* x) {
             return zagzig(x);
         }
     }
+    return nullptr;
 }
 
 // splay
@@ -132,13 +134,12 @@ void Splay::insert(char* value) {
         list<Node*>* childList = root->getChildsList();
         if (childList->getLength() == 2) {
             Node* leafNode = new Node(value); 
-            root->getChildsList()->insertar(&leafNode);
+            root->getChildsList()->insertar(leafNode);
             root = splay(leafNode);
         } else {
-            childList->insertar(&newNode);
+            childList->insertar(newNode);
             root = splay(newNode);
         }
     }
 }
-
 #endif
