@@ -1,19 +1,11 @@
-play.cpp: In member function ‘void Splay::insert(char*)’:
-Splay.cpp:137:45: error: cannot convert ‘Node*’ to ‘Node**’
-  137 |             root->getChildsList()->insertar(leafNode);
-      |                                             ^~~~~~~~
-      |                                             |
-      |                                             Node*
+yeremi@yeremi-VirtualBox:~/pr03cpp$ g++ -o Splay Splay.cpp
 In file included from Node.cpp:3,
                  from Splay.cpp:4:
-list.cpp:32:27: note:   initializing argument 1 of ‘void list<T>::insertar(T*) [with T = Node*]’
-   32 | void list<T>::insertar(T* pData) {
-      |                        ~~~^~~~~
-Splay.cpp:140:33: error: cannot convert ‘Node*’ to ‘Node**’
-  140 |             childList->insertar(newNode);
-      |                                 ^~~~~~~
-      |                                 |
-      |                                 Node*
-list.cpp:32:27: note:   initializing argument 1 of ‘void list<T>::insertar(T*) [with T = Node*]’
-   32 | void list<T>::insertar(T* pData) {
-      |                        ~~~^~~~~
+list.cpp: In instantiation of ‘void list<T>::insertar(T*) [with T = Node*]’:
+Splay.cpp:137:44:   required from here
+list.cpp:40:20: error: request for member ‘setNext’ in ‘*((list<Node*>*)this)->list<Node*>::apPrimero’, which is of pointer type ‘Node*’ (maybe you meant to use ‘->’ ?)
+   40 |         apPrimero->setNext(nullptr);
+      |         ~~~~~~~~~~~^~~~~~~
+list.cpp:42:19: error: request for member ‘setNext’ in ‘*((list<Node*>*)this)->list<Node*>::apUltimo’, which is of pointer type ‘Node*’ (maybe you meant to use ‘->’ ?)
+   42 |         apUltimo->setNext(pData);
+      |         ~~~~~~~~~~^~~~~~~
