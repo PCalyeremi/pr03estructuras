@@ -6,6 +6,8 @@
 class Splay {
 private:
     Node* root;
+    Node* p;
+    Node* g;
 
     Node* zig(Node* x);
     Node* zag(Node* x);
@@ -20,10 +22,9 @@ public:
     void insert(char* value);
 };
 
-Splay::Splay() : root(nullptr) {}
+Splay::Splay() : root(nullptr), p(nullptr), g(nullptr) {}
 
 Splay::~Splay() {
-    // liberar memoria
     delete root;
 }
 
@@ -45,21 +46,25 @@ Node* Splay::zag(Node* x) {
 
 // rotación izq-der
 Node* Splay::zigzag(Node* x) {
-    if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-            if (x == p->getLeft()) {
-                // izquierda
-                return zig(zig(x));
-            } else {
-                // derecha
-                return zag(zag(x));
-            }
+    Node* p = x->getNext();
+    Node* g = p->getNext();
+    if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
+        if (x == p->getNext()) {
+            // izquierda
+            return zig(zig(x));
+        } else {
+            // derecha
+            return zag(zag(x));
         }
+    }
 }
 
 // rotación der-izq
 Node* Splay::zagzig(Node* x) {
-    if ((x == p->getLeft() && p == g->getRight()) || (x == p->getRight() && p == g->getLeft())) {
-        if (x == p->getLeft()) {
+    Node* p = x->getNext();
+    Node* g = p->getNext();
+    if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
+        if (x == p->getNext()) {
             // izquierda
             return zigzag(x);
         } else {
@@ -76,37 +81,37 @@ Node* Splay::splay(Node* x) {
     }
 
     while (x != root) {
-        Node* p = x->getParent();
+        Node* p = x->getNext();
         if (p == nullptr) {
             // Caso 1: x es hijo del nodo raíz
-            if (x == root->getLeft()) {
+            if (x == root->getNext()) {
                 root = zig(x);
             } else {
                 root = zag(x);
             }
         } else {
-            Node* g = p->getParent();
+            Node* g = p->getNext();
             if (g == nullptr) {
                 // Caso 2: x es nieto de la raíz
-                if (x == p->getLeft() && p == root->getLeft()) {
+                if (x == p->getNext() && p == root->getNext()) {
                     root = zig(zig(x));
-                } else if (x == p->getRight() && p == root->getRight()) {
+                } else if (x == p->getNext() && p == root->getNext()) {
                     root = zag(zag(x));
-                } else if (x == p->getLeft() && p == root->getRight()) {
+                } else if (x == p->getNext() && p == root->getNext()) {
                     root = zagzig(x);
                 } else {
                     root = zigzag(x);
                 }
             } else {
                 // Caso 3: x es bisnieto de la raíz
-                if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-                    if (x == p->getLeft()) {
+                if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
+                    if (x == p->getNext()) {
                         root = zigzig(x);
                     } else {
                         root = zagzag(x);
                     }
                 } else {
-                    if (x == p->getLeft()) {
+                    if (x == p->getNext()) {
                         root = zigzag(x);
                     } else {
                         root = zagzig(x);
@@ -118,6 +123,7 @@ Node* Splay::splay(Node* x) {
 
     return root;
 }
+
 // inserta el nuevo valor
 void Splay::insert(char* value) {
     Node* newNode = new Node(value);
@@ -126,7 +132,7 @@ void Splay::insert(char* value) {
     } else {
         list<Node*>* childList = root->getChildsList();
         if (childList->getLength() == 2) {
-            Node* leafNode = new Node(value);
+            Node* leafNode = new Node(value); 
             root->getChildsList()->insertar(leafNode);
             root = splay(leafNode);
         } else {
@@ -135,7 +141,4 @@ void Splay::insert(char* value) {
         }
     }
 }
-
-
-
 #endif
