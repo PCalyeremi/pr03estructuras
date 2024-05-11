@@ -1,109 +1,37 @@
-yeremi@yeremi-VirtualBox:~/pr03cpp$ g++ -o cod cod.cpp
-cod.cpp: In member function ‘Node* Splay::zigzag(Node*)’:
-cod.cpp:48:15: error: ‘p’ was not declared in this scope
-   48 |     if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |               ^
-cod.cpp:48:36: error: ‘g’ was not declared in this scope
-   48 |     if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |                                    ^
-cod.cpp: In member function ‘Node* Splay::zagzig(Node*)’:
-cod.cpp:61:15: error: ‘p’ was not declared in this scope
-   61 |     if ((x == p->getLeft() && p == g->getRight()) || (x == p->getRight() && p == g->getLeft())) {
-      |               ^
-cod.cpp:61:36: error: ‘g’ was not declared in this scope
-   61 |     if ((x == p->getLeft() && p == g->getRight()) || (x == p->getRight() && p == g->getLeft())) {
-      |                                    ^
-cod.cpp: In member function ‘Node* Splay::splay(Node*)’:
-cod.cpp:79:22: error: ‘class Node’ has no member named ‘getParent’
-   79 |         Node* p = x->getParent();
-      |                      ^~~~~~~~~
-cod.cpp:82:28: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-   82 |             if (x == root->getLeft()) {
-      |                            ^~~~~~~
-      |                            getNext
-cod.cpp:88:26: error: ‘class Node’ has no member named ‘getParent’
-   88 |             Node* g = p->getParent();
-      |                          ^~~~~~~~~
-cod.cpp:91:29: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-   91 |                 if (x == p->getLeft() && p == root->getLeft()) {
-      |                             ^~~~~~~
-      |                             getNext
-cod.cpp:91:53: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-   91 |                 if (x == p->getLeft() && p == root->getLeft()) {
-      |                                                     ^~~~~~~
-      |                                                     getNext
-cod.cpp:93:36: error: ‘class Node’ has no member named ‘getRight’; did you mean ‘getHeight’?
-   93 |                 } else if (x == p->getRight() && p == root->getRight()) {
-      |                                    ^~~~~~~~
-      |                                    getHeight
-cod.cpp:93:61: error: ‘class Node’ has no member named ‘getRight’; did you mean ‘getHeight’?
-   93 |                 } else if (x == p->getRight() && p == root->getRight()) {
-      |                                                             ^~~~~~~~
-      |                                                             getHeight
-cod.cpp:95:36: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-   95 |                 } else if (x == p->getLeft() && p == root->getRight()) {
-      |                                    ^~~~~~~
-      |                                    getNext
-cod.cpp:95:60: error: ‘class Node’ has no member named ‘getRight’; did you mean ‘getHeight’?
-   95 |                 } else if (x == p->getLeft() && p == root->getRight()) {
-      |                                                            ^~~~~~~~
-      |                                                            getHeight
-cod.cpp:102:30: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-  102 |                 if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |                              ^~~~~~~
-      |                              getNext
-cod.cpp:102:51: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-  102 |                 if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |                                                   ^~~~~~~
-      |                                                   getNext
-cod.cpp:102:74: error: ‘class Node’ has no member named ‘getRight’; did you mean ‘getHeight’?
-  102 |                 if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |                                                                          ^~~~~~~~
-      |                                                                          getHeight
-cod.cpp:102:96: error: ‘class Node’ has no member named ‘getRight’; did you mean ‘getHeight’?
-  102 |                 if ((x == p->getLeft() && p == g->getLeft()) || (x == p->getRight() && p == g->getRight())) {
-      |                                                                                                ^~~~~~~~
-      |                                                                                                getHeight
-cod.cpp:103:33: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-  103 |                     if (x == p->getLeft()) {
-      |                                 ^~~~~~~
-      |                                 getNext
-cod.cpp:104:32: error: ‘zigzig’ was not declared in this scope; did you mean ‘zigzag’?
-  104 |                         root = zigzig(x);
+yeremi@yeremi-VirtualBox:~/pr03cpp$ g++ -o Splay Splay.cpp
+Splay.cpp: In member function ‘Node* Splay::splay(Node*)’:
+Splay.cpp:109:32: error: ‘zigzig’ was not declared in this scope; did you mean ‘zigzag’?
+  109 |                         root = zigzig(x);
       |                                ^~~~~~
       |                                zigzag
-cod.cpp:106:32: error: ‘zagzag’ was not declared in this scope; did you mean ‘zigzag’?
-  106 |                         root = zagzag(x);
+Splay.cpp:111:32: error: ‘zagzag’ was not declared in this scope; did you mean ‘zigzag’?
+  111 |                         root = zagzag(x);
       |                                ^~~~~~
       |                                zigzag
-cod.cpp:109:33: error: ‘class Node’ has no member named ‘getLeft’; did you mean ‘getNext’?
-  109 |                     if (x == p->getLeft()) {
-      |                                 ^~~~~~~
-      |                                 getNext
-cod.cpp: In member function ‘void Splay::insert(char*)’:
-cod.cpp:130:45: error: cannot convert ‘Node*’ to ‘Node**’
-  130 |             root->getChildsList()->insertar(leafNode);
+Splay.cpp: In member function ‘void Splay::insert(char*)’:
+Splay.cpp:136:45: error: cannot convert ‘Node*’ to ‘Node**’
+  136 |             root->getChildsList()->insertar(leafNode);
       |                                             ^~~~~~~~
       |                                             |
       |                                             Node*
 In file included from Node.cpp:3,
-                 from cod.cpp:4:
+                 from Splay.cpp:4:
 list.cpp:32:27: note:   initializing argument 1 of ‘void list<T>::insertar(T*) [with T = Node*]’
    32 | void list<T>::insertar(T* pData) {
       |                        ~~~^~~~~
-cod.cpp:133:33: error: cannot convert ‘Node*’ to ‘Node**’
-  133 |             childList->insertar(newNode);
+Splay.cpp:139:33: error: cannot convert ‘Node*’ to ‘Node**’
+  139 |             childList->insertar(newNode);
       |                                 ^~~~~~~
       |                                 |
       |                                 Node*
 list.cpp:32:27: note:   initializing argument 1 of ‘void list<T>::insertar(T*) [with T = Node*]’
    32 | void list<T>::insertar(T* pData) {
       |                        ~~~^~~~~
-cod.cpp: In member function ‘Node* Splay::zigzag(Node*)’:
-cod.cpp:57:1: warning: control reaches end of non-void function [-Wreturn-type]
-   57 | }
+Splay.cpp: In member function ‘Node* Splay::zigzag(Node*)’:
+Splay.cpp:60:1: warning: control reaches end of non-void function [-Wreturn-type]
+   60 | }
       | ^
-cod.cpp: In member function ‘Node* Splay::zagzig(Node*)’:
-cod.cpp:70:1: warning: control reaches end of non-void function [-Wreturn-type]
-   70 | }
+Splay.cpp: In member function ‘Node* Splay::zagzig(Node*)’:
+Splay.cpp:75:1: warning: control reaches end of non-void function [-Wreturn-type]
+   75 | }
       | ^
