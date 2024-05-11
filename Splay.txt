@@ -19,7 +19,7 @@ public:
     Splay();
     ~Splay();
 
-    void insertar(T** pData);
+    void insert(char* value);
 };
 
 Splay::Splay() : root(nullptr), p(nullptr), g(nullptr) {}
@@ -134,10 +134,10 @@ void Splay::insert(char* value) {
         list<Node*>* childList = root->getChildsList();
         if (childList->getLength() == 2) {
             Node* leafNode = new Node(value); 
-            root->getChildsList()->insertar(&leafNode); 
+            root->getChildsList()->insertar(&leafNode);
             root = splay(leafNode);
         } else {
-            childList->insertar(&newNode); 
+            childList->insertar(&newNode);
             root = splay(newNode);
         }
     }
