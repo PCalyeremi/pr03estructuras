@@ -1,145 +1,225 @@
 #ifndef SPLAY_HPP
 #define SPLAY_HPP
 
+
+/*****Datos administrativos************************
+ * Nombre del archivo: Splay.hpp
+ * Tipo de archivo: hpp
+ * Proyecto: #3 XML
+ * Autor: Yosimar, Yeremi,Sidney,Bryan
+ * Empresa:Tecnológico de Costa Rica
+ *****Descripción**********************************
+ * En este archivo se encontraron funciones y metodos para la creacion de un arbol de tipo Splay
+ * 
+ *****Versión**************************************
+ * ## | Fecha y hora | Autor
+ * 1.0  12/05/2024     Yosimar, Yeremi,Sidney,Bryan
+ **************************************************/
+
+
+/*****Nombre***************************************
+ * Splay.hpp
+ *****Descripción**********************************
+ * Creación del arbol de Splay para facilitar el uso del XML
+ *****Atributos************************************
+ * apRoot, apZig, apZag, apSplay
+ *****Métodos**************************************
+ * Insert
+ **************************************************/
+
 #include "Node.hpp"
 
 class Splay {
 private:
-    Node* root;
-    Node* p;
-    Node* g;
+    Node *apRoot;
 
-    Node* zig(Node* x);
-    Node* zag(Node* x);
-    Node* zigzag(Node* x);
-    Node* zagzig(Node* x);
-    Node* splay(Node* x);
-
+    Node* apZig(Node* x);
+    Node* apZag(Node* x);
+    Node* apSplay(Node* x);
+    void balanceSplay(Node* node);
+    void updateHeight(Node* node);
+    int getBalanceFactor(Node* node);
+    Node* rotateLeft(Node* x);
+    Node* rotateRight(Node* x);
 public:
     Splay();
     ~Splay();
 
-    void insert(char* value);
+    void insert(const char* value);
+    // Accesores
 };
 
-Splay::Splay() : root(nullptr), p(nullptr), g(nullptr) {}
+
+
+/*****Nombre***************************************
+ * apRoot
+ *****Descripción**********************************
+ * 
+ *****Retorno**************************************
+ * 
+ *****Entradas*************************************
+ * nullptr
+ **************************************************/
+Splay::Splay() : apRoot(nullptr) {}
 
 Splay::~Splay() {
-    delete root;
+    delete apRoot;
 }
+
+
+/*****Nombre***************************************
+ * apZig
+ *****Descripción**********************************
+ * 
+ *****Retorno**************************************
+ * retorna una variable y
+ *****Entradas*************************************
+ * Node* x
+ **************************************************/
+
+
 
 // rotación hacia la izquierda
-Node* Splay::zig(Node* x) {
-    Node* y = x->getNext();
-    x->setNext(y->getNext());
-    y->setNext(x);
+Node* Splay::apZig(Node* x) {
+    Node* y = x->getRight();
+    x->setRight(y->getLeft());
+    if (y->getLeft() != nullptr) y->getLeft()->setParent(x);
+    y->setParent(x->getParent());
+    if (x->getParent() == nullptr) apRoot = y;
+    else if (x == x->getParent()->getLeft()) x->getParent()->setLeft(y);
+    else x->getParent()->setRight(y);
+    y->setLeft(x);
+    x->setParent(y);
     return y;
 }
 
-// rotación hacia la derecha
-Node* Splay::zag(Node* x) {
-    Node* y = x->getNext();
-    x->setNext(y->getNext());
-    y->setNext(x);
+Node* Splay::apZag(Node* x) {
+    Node* y = x->getLeft();
+    x->setLeft(y->getRight());
+    if (y->getRight() != nullptr) y->getRight()->setParent(x);
+    y->setParent(x->getParent());
+    if (x->getParent() == nullptr) apRoot = y;
+    else if (x == x->getParent()->getRight()) x->getParent()->setRight(y);
+    else x->getParent()->setLeft(y);
+    y->setRight(x);
+    x->setParent(y);
     return y;
 }
 
-// rotación izq-der
-Node* Splay::zigzag(Node* x) {
-    Node* p = x->getNext();
-    Node* g = p->getNext();
-    if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
-        if (x == p->getNext()) {
-            // izquierda
-            return zig(zig(x));
-        } else {
-            // derecha
-            return zag(zag(x));
-        }
-    }
-    return nullptr;
-}
-
-// rotación der-izq
-Node* Splay::zagzig(Node* x) {
-    Node* p = x->getNext();
-    Node* g = p->getNext();
-    if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
-        if (x == p->getNext()) {
-            // izquierda
-            return zigzag(x);
-        } else {
-            // derecha
-            return zagzig(x);
-        }
-    }
-    return nullptr;
-}
-
-// splay
-Node* Splay::splay(Node* x) {
-    if (x == nullptr) {
-        return nullptr;
-    }
-
-    while (x != root) {
-        Node* p = x->getNext();
-        if (p == nullptr) {
-            // Caso 1: x es hijo del nodo raíz
-            if (x == root->getNext()) {
-                root = zig(x);
+void Splay::balanceSplay(Node* node) {
+    while (node != nullptr) {
+        updateHeight(node);
+        int balanceFactor = getBalanceFactor(node);
+        if (balanceFactor > 1) {
+            if (getBalanceFactor(node->getLeft()) >= 0) {
+                node = rotateRight(node);
             } else {
-                root = zag(x);
+                node->setLeft(rotateLeft(node->getLeft()));
+                node = rotateRight(node);
             }
-        } else {
-            Node* g = p->getNext();
-            if (g == nullptr) {
-                // Caso 2: x es nieto de la raíz
-                if (x == p->getNext() && p == root->getNext()) {
-                    root = zig(zig(x));
-                } else if (x == p->getNext() && p == root->getNext()) {
-                    root = zag(zag(x));
-                } else if (x == p->getNext() && p == root->getNext()) {
-                    root = zagzig(x);
-                } else {
-                    root = zigzag(x);
-                }
+        } else if (balanceFactor < -1) {
+            if (getBalanceFactor(node->getRight()) <= 0) {
+                node = rotateLeft(node);
             } else {
-                // Caso 3: x es bisnieto de la raíz
-                if ((x == p->getNext() && p == g->getNext()) || (x == p->getNext() && p == g->getNext())) {
-                    if (x == p->getNext()) {
-                        root = zigzag(x);
-                    } else {
-                        root = zagzig(x);
-                    }
-                } else {
-                    if (x == p->getNext()) {
-                        root = zigzag(x);
-                    } else {
-                        root = zagzig(x);
-                    }
-                }
+                node->setRight(rotateRight(node->getRight()));
+                node = rotateLeft(node);
             }
         }
+        node = node->getParent();
     }
-
-    return root;
 }
-// inserta el nuevo valor
-void Splay::insert(char* value) {
+
+Node* Splay::rotateLeft(Node* x) {
+    Node* y = x->getRight();
+    x->setRight(y->getLeft());
+    if (y->getLeft() != nullptr) y->getLeft()->setParent(x);
+    y->setParent(x->getParent());
+    if (x->getParent() == nullptr) apRoot = y;
+    else if (x == x->getParent()->getLeft()) x->getParent()->setLeft(y);
+    else x->getParent()->setRight(y);
+    y->setLeft(x);
+    x->setParent(y);
+    updateHeight(x);
+    updateHeight(y);
+    return y;
+}
+
+Node* Splay::rotateRight(Node* x) {
+    Node* y = x->getLeft();
+    x->setLeft(y->getRight());
+    if (y->getRight() != nullptr) y->getRight()->setParent(x);
+    y->setParent(x->getParent());
+    if (x->getParent() == nullptr) apRoot = y;
+    else if (x == x->getParent()->getRight()) x->getParent()->setRight(y);
+    else x->getParent()->setLeft(y);
+    y->setRight(x);
+    x->setParent(y);
+    updateHeight(x);
+    updateHeight(y);
+    return y;
+}
+
+void Splay::updateHeight(Node* node) {
+    if (node == nullptr) return;
+    int leftHeight = (node->getLeft() ? node->getLeft()->getHeight() : -1);
+    int rightHeight = (node->getRight() ? node->getRight()->getHeight() : -1);
+    node->setHeight(1 + std::max(leftHeight, rightHeight));
+}
+
+int Splay::getBalanceFactor(Node* node) {
+    if (node == nullptr) return 0;
+    int leftHeight = (node->getLeft() ? node->getLeft()->getHeight() : 0);
+    int rightHeight = (node->getRight() ? node->getRight()->getHeight() : 0);
+    return leftHeight - rightHeight;
+}
+
+Node* Splay::apSplay(Node* x) {
+    while (x->getParent() != nullptr) {
+        if (x->getParent()->getParent() == nullptr) {
+            if (x->getParent()->getLeft() == x) x = apZag(x->getParent());
+            else x = apZig(x->getParent());
+        } else if (x->getParent()->getLeft() == x && x->getParent()->getParent()->getLeft() == x->getParent()) {
+            x = apZag(apZag(x->getParent()->getParent()));
+        } else if (x->getParent()->getRight() == x && x->getParent()->getParent()->getRight() == x->getParent()) {
+            x = apZig(apZig(x->getParent()->getParent()));
+        } else if (x->getParent()->getRight() == x && x->getParent()->getParent()->getLeft() == x->getParent()) {
+            x = apZig(apZag(x->getParent()->getParent()));
+        } else {
+            x = apZag(apZig(x->getParent()->getParent()));
+        }
+    }
+    apRoot = x;
+    return x;
+}
+
+void Splay::insert(const char* value) {
     Node* newNode = new Node(value);
-    if (root == nullptr) {
-        root = newNode;
+    if (apRoot == nullptr) {
+        apRoot = newNode;
     } else {
-        list<Node*>* childList = root->getChildsList();
-        if (childList->getLength() == 2) {
-            Node* leafNode = new Node(value); 
-            root->getChildsList()->insertar(&leafNode);
-            root = splay(leafNode);
-        } else {
-            childList->insertar(&newNode);
-            root = splay(newNode);
+        Node* current = apRoot;
+        Node* parent = nullptr;
+
+        while (current != nullptr) {
+            parent = current;
+            if (strcmp(value, current->getValue()) < 0) {
+                current = current->getLeft();
+            } else {
+                current = current->getRight();
+            }
         }
+
+        if (strcmp(value, parent->getValue()) < 0) {
+            parent->setLeft(newNode);
+        } else {
+            parent->setRight(newNode);
+        }
+
+        newNode->setParent(parent);
+
+        balanceSplay(newNode);
+
+        apRoot = apSplay(newNode);
     }
 }
 #endif
