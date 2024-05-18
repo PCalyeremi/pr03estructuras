@@ -1,24 +1,67 @@
 #ifndef NODE_HPP
 #define NODE_HPP
+
 #include "list.hpp"
 
 
+/*****Datos administrativos************************
+ * Nombre del archivo: Nodo*cpp
+ * Tipo de archivo: Una clase
+ * Proyecto: #3
+ * Autor: Sidney,Yosimar,Yeremi,Bryan
+ * Empresa: Tecnologico de Costa Rica 
+ *****Descripción**********************************
+ *  Es la primera clase para los nodos de esta forma se podran trabajar de manera más ordenada
+ *  y sencilla para poder generar un XML en condiciones
+ *****Versión**************************************
+ * ## | Fecha y hora | Autor
+ * 1.0  12/5/2024      Sidney,Yosimar,Yeremi,Bryan
+ **************************************************/
+
+
+
+
+
+
+/*****Nodo***************************************
+ * 
+ *****Es el nodo de un arbol que va a servir para generar la estructura necesaria de este**********************************
+ * 
+ *****idNodo, value, nameNodo,Nodo*listchilds, amountChilds, balance, height************************************
+ * 
+ *****Métodos**************************************
+ * getIdNode, setIdNode, getValue, setValue, getAmountChilds, setAmountChilds, getBalance, getHeight, setHeight,
+ *  getNext, setNext
+ **************************************************/
+
 class Node {
 private:
-    int idNode;
-    char* value;   //Con esto me refiero al valor del Node o sea digamos lo que almacena
-    char* nameNode; // este puede no ser necesario
-    list<Node*> *pListChilds = new list<Node*>(); 
-    int amountChilds;
-    int balance;
-    int height;
-    Node *pNext;
-
+    int aIdNode;
+    char *apValue;
+    char *apNameNode;
+    List<Node*> *apListChilds;
+    int aAmountChilds;
+    int aBalance;
+    int aHeight;
+    Node *apNext;
+    Node *apLeft;
+    Node *apRight;
+    Node *apParent;
+    static int aNodesAmount;
+        /* data */
 public:
-    Node(char *pValue);
+    Node(char *apValue);
 
-// gets y setters
-    list<Node*> *getChildsList ();
+    // Gets y sets para los hijos izquierdo y derecho esto lo agregue 
+    Node* getLeft();
+    void setLeft(Node *left);
+    Node* getRight();
+    void setRight(Node *right);
+    Node* getParent();
+    void setParent(Node *parent);
+
+    // Otros gets y sets
+    List<Node*>* getChildsList();
     int getIdNode();
     void setIdNode(int id);
     char* getValue();
@@ -29,67 +72,233 @@ public:
     int getHeight();
     void setHeight(int height);
     Node* getNext();
-    void setNext(Node *pNextNode);
+    void setNext(Node *apNextNode);
+    char* getApNameNode();
 };
+////////////////////////////////////////////
 
-    Node::Node(char *pNodeValue) {
-        idNode = 0;
-        value = pNodeValue;
-        nameNode = nullptr;
-        amountChilds = 0;
-        balance = false;
-        height = 0;
-    
+    //agregado 
+    Node::Node(char *apNodeValue) {
+    aIdNode = aNodesAmount++;
+    apValue = apNodeValue;
+    apNameNode = nullptr;
+    aAmountChilds = 0;
+    aBalance = false;
+    aHeight = 0;
+    apNext = nullptr;
+    apLeft = nullptr;
+    apRight = nullptr;
+    apParent = nullptr;
+    apListChilds = new List<Node*>();
+}
+//.....................................................
+    Node* Node::getLeft() {
+        return apLeft;
     }
 
-
-    list<Node*>* Node::getChildsList() {
-        return pListChilds;
+    void Node::setLeft(Node *left) {
+        apLeft = left;
     }
+
+    Node* Node::getRight() {
+        return apRight;
+    }
+
+    void Node::setRight(Node *right) {
+        apRight = right;
+    }
+
+    Node* Node::getParent() {
+        return apParent;
+    }
+
+    void Node::setParent(Node *parent) {
+        apParent = parent;
+    }
+//.....................................................
+
+    /*****Nombre***************************************
+    * getChildsList
+    *****Descripción**********************************
+    * apunta a una lista de hijos y la devuelve
+    *****Retorno**************************************
+    * apListChilds
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
+
+
+    List<Node*>* Node::getChildsList() {
+        return apListChilds;
+    }
+
+    /*****Nombre***************************************
+    * getIdNode
+    *****Descripción**********************************
+    * Nos devuelve el id del nodo
+    *****Retorno**************************************
+    * aIDNode
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
 
     int Node::getIdNode() {
-        return idNode;
+        return aIdNode;
     }
+
+
+    /*****Nombre***************************************
+    * getValue
+    *****Descripción**********************************
+    * Nos devuelve el valor 
+    *****Retorno**************************************
+    * apValue
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
 
     char* Node::getValue() {
-        return value;
+        return apValue;
     }
+
+
+    /*****Nombre***************************************
+    * getAmountChilds
+    *****Descripción**********************************
+    * Nos devuelve la cantidad de hijos
+    *****Retorno**************************************
+    * aAmountChilds
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
 
     int Node::getAmountChilds() {
-        return amountChilds;
+        return aAmountChilds;
     }
+
+    /*****Nombre***************************************
+    * getApNameNode
+    *****Descripción**********************************
+    * Nos devuelve el nombre del nodo
+    *****Retorno**************************************
+    * apNameNode
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
+
+    char* Node::getApNameNode() {
+        return apNameNode;
+    }
+
+    /*****Nombre***************************************
+    * getBalance
+    *****Descripción**********************************
+    * Nos devuelve el balance
+    *****Retorno**************************************
+    * aBalance
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
 
     int Node::getBalance() {
-        return balance;
+        return aBalance;
     }
+
+    /*****Nombre***************************************
+    * getHeight
+    *****Descripción**********************************
+    * Nos devuelve una nueva altura
+    *****Retorno**************************************
+    * aHeight
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/
 
     int Node::getHeight(){
-        return height;
+        return aHeight;
     }
+
+    /*****Nombre***************************************
+    * setIdNode
+    *****Descripción**********************************
+    * seteamos un nuevo id
+    *****Retorno**************************************
+    * el cambio del atributo segun el parametro
+    *****Entradas*************************************
+    * int id
+    **************************************************/
 
     void Node::setIdNode(int id) {
-        idNode = id;
+        aIdNode = id;
     }
+
+    /*****Nombre***************************************
+    * setValue
+    *****Descripción**********************************
+    * le seteamos un valor de tipo letra
+    *****Retorno**************************************
+    * El cambio del atributo segun el parametro
+    *****Entradas*************************************
+    * char* newValue
+    **************************************************/
 
     void Node::setValue(char* newValue) {
-        value = newValue;
+        apValue = newValue;
     }
+
+    /*****Nombre***************************************
+    * setAmountChilds
+    *****Descripción**********************************
+    * Seteamos la cantidad de hijos
+    *****Retorno**************************************
+    * El cambio del atributo segun el parametro
+    *****Entradas*************************************
+    * int amount
+    **************************************************/    
 
     void Node::setAmountChilds(int amount) {
-        amountChilds = amount;
+        aAmountChilds = amount;
     }
+
+    /*****Nombre***************************************
+    * setHeight
+    *****Descripción**********************************
+    *  setea la nueva altura con respecto a la antigua
+    *****Retorno**************************************
+    * El cambio del atributo segun el parametro
+    *****Entradas*************************************
+    * int newHeight
+    **************************************************/ 
 
     void Node::setHeight(int newHeight) {
-        height = newHeight;
+        aHeight = newHeight;
     }
+
+    /*****Nombre***************************************
+    * getNext
+    *****Descripción**********************************
+    * Devuelve el nodo siguiente
+    *****Retorno**************************************
+    * apNext
+    *****Entradas*************************************
+    * No tiene
+    **************************************************/ 
 
     Node* Node::getNext() {
-        return pNext;
+        return apNext;
     }
 
-    void Node::setNext(Node *pNextNode) {
-        pNext = pNextNode;
-    }
-
-#endif    
-
+    /*****Nombre***************************************
+    * setNext
+    *****Descripción**********************************
+    * Setea el nuevo valor para el nodo
+    *****Retorno**************************************
+    * El cambio del atributo segun el parametro
+    *****Entradas*************************************
+    * Node *apNextNode
+    **************************************************/ 
+//cambie esta parte 
+void Node::setNext(Node *apNextNode) {
+    apNext = apNextNode;
+}
+#endif
